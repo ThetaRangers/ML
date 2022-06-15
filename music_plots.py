@@ -1,33 +1,39 @@
+import ast
+
 import librosa, librosa.display
 
+import os
 import numpy as np
+import pandas as pd
 from tempfile import mktemp
 from pydub import AudioSegment
 import matplotlib.pyplot as plt
 
+# This representation uses the method of 1 to project chroma
+# features onto a 6-dimensional basis representing the perfect fifth, minor third, and major third each as
+# two-dimensional coordinates.
 def plot_tempogram(filename):
-    mp3_audio = AudioSegment.from_file(filename, format="mp3").set_channels(1)  # read mp3
-
-    wname = mktemp('.wav')  # use temporary file
-    mp3_audio.export(wname, format="wav")  # convert to wav
-    signal, sr = librosa.load(wname)
+    signal, sr = librosa.load(filename)
 
     # The amount of samples we are shifting after each fft
-    hop_length = 512
-    mel_signal = librosa.feature.tempogram(y=signal, sr=sr)
-    spectrogram = np.abs(mel_signal)
-    power_to_db = librosa.power_to_db(spectrogram, ref=np.max)
+    hop_length = 200
+    #n_fft = 2048
+
+    onset_env = librosa.onset.onset_strength(signal, sr=sr)
+    tempogram = librosa.feature.tempogram(onset_envelope=onset_env, sr=sr, win_length=400, hop_length=hop_length)
+
     plt.figure(figsize=(20, 5))
-    librosa.display.specshow(power_to_db, sr=sr, x_axis='time', y_axis='mel', cmap='magma', hop_length=hop_length)
+    librosa.display.specshow(tempogram, sr=sr, x_axis='time', y_axis='tempo', hop_length=hop_length)
     plt.title('Tempogram', fontdict=dict(size=18))
     plt.show()
 
 def plot_mel_spectrogram(filename):
-    mp3_audio = AudioSegment.from_file(filename, format="mp3").set_channels(1)  # read mp3
+    #mp3_audio = AudioSegment.from_file(filename, format="mp3").set_channels(1)  # read mp3
 
-    wname = mktemp('.wav')  # use temporary file
-    mp3_audio.export(wname, format="wav")  # convert to wav
-    signal, sr = librosa.load(wname)
+    #wname = mktemp('.wav')  # use temporary file
+    #mp3_audio.export(wname, format="wav")  # convert to wav
+    #audio = AudioSegment.from_file(filename, format="wav")
+    signal, sr = librosa.load(filename)
 
     # this is the number of samples in a window per fft
     n_fft = 2048
@@ -37,43 +43,33 @@ def plot_mel_spectrogram(filename):
     spectrogram = np.abs(mel_signal)
     power_to_db = librosa.power_to_db(spectrogram, ref=np.max)
     plt.figure(figsize=(20, 5))
-    librosa.display.specshow(power_to_db, sr=sr, x_axis='time', y_axis='mel', cmap='magma', hop_length=hop_length)
+    librosa.display.specshow(power_to_db, sr=sr, hop_length=hop_length)
     plt.title('Mel-Spectrogram (dB)', fontdict=dict(size=18))
     plt.xlabel('Time', fontdict=dict(size=15))
     plt.ylabel('Frequency', fontdict=dict(size=15))
     plt.show()
 
 def plot_chroma(filename):
-    mp3_audio = AudioSegment.from_file(filename, format="mp3").set_channels(1)  # read mp3
-
-    wname = mktemp('.wav')  # use temporary file
-    mp3_audio.export(wname, format="wav")  # convert to wav
-    signal, sr = librosa.load(wname)
+    signal, sr = librosa.load(filename)
 
     # The amount of samples we are shifting after each fft
     hop_length = 512
-    mel_signal = librosa.feature.chroma_cqt(y=signal, sr=sr, hop_length=hop_length)
-    spectrogram = np.abs(mel_signal)
-    power_to_db = librosa.power_to_db(spectrogram, ref=np.max)
+    chroma = librosa.feature.chroma_cqt(y=signal, sr=sr, hop_length=hop_length)
+
     plt.figure(figsize=(20, 5))
-    librosa.display.specshow(power_to_db, sr=sr, x_axis='time', y_axis='mel', cmap='magma', hop_length=hop_length)
+    librosa.display.specshow(chroma, sr=sr, hop_length=hop_length)
     plt.title('Constant Q Chroma', fontdict=dict(size=18))
     plt.show()
 
 def plot_tonnetz(filename):
-    mp3_audio = AudioSegment.from_file(filename, format="mp3").set_channels(1)  # read mp3
-
-    wname = mktemp('.wav')  # use temporary file
-    mp3_audio.export(wname, format="wav")  # convert to wav
-    signal, sr = librosa.load(wname)
+    signal, sr = librosa.load(filename)
 
     # The amount of samples we are shifting after each fft
     hop_length = 512
-    mel_signal = librosa.feature.tonnetz(y=signal, sr=sr, hop_length=hop_length)
-    spectrogram = np.abs(mel_signal)
-    power_to_db = librosa.power_to_db(spectrogram, ref=np.max)
+    tonnetz = librosa.feature.tonnetz(y=signal, sr=sr, hop_length=hop_length)
+
     plt.figure(figsize=(20, 5))
-    librosa.display.specshow(power_to_db, sr=sr, x_axis='time', y_axis='mel', cmap='magma', hop_length=hop_length)
+    librosa.display.specshow(tonnetz, sr=sr, hop_length=hop_length)
     plt.title('Tonnetz', fontdict=dict(size=18))
     plt.show()
 
