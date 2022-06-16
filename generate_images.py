@@ -1,7 +1,7 @@
 from music_plots import *
 
 import os.path
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 from pydub import AudioSegment
 from pathlib import Path
 
@@ -10,7 +10,8 @@ Path("data/spectrograms").mkdir(parents=True, exist_ok=True)
 files = files[:100]
 
 if __name__ == "__main__":
-
+    for file in tqdm(files):
+        generate_mel_spectrogram("data/tracks_wav/" + file, "data/spectrograms/")
     """
     for file in tqdm(files):
         try:
