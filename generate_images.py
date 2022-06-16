@@ -7,7 +7,7 @@ from pathlib import Path
 
 files = os.listdir('data/tracks_wav')
 Path("data/spectrograms").mkdir(parents=True, exist_ok=True)
-files = files[:100]
+#files = files[:100]
 
 if __name__ == "__main__":
     for file in tqdm(files):

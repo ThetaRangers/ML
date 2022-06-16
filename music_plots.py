@@ -61,10 +61,12 @@ def generate_mel_spectrogram(filename, outpath):
     spectrogram = np.abs(mel_signal)
     power_to_db = librosa.power_to_db(spectrogram, ref=np.max)
     #plt.figure(figsize=(20, 5))
+
     px = 1 / plt.rcParams['figure.dpi']  # pixel in inches
     plt.subplots(figsize=(600 * px, 200 * px))
+    plt.axis('off')
     librosa.display.specshow(power_to_db, sr=sr, hop_length=hop_length)
-    plt.savefig(outpath + new_filename)
+    plt.savefig(outpath + new_filename, bbox_inches='tight', transparent=True)
     plt.close('all')
 
 
