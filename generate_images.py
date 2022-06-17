@@ -7,11 +7,13 @@ from pathlib import Path
 
 files = os.listdir('data/tracks_wav')
 Path("data/spectrograms").mkdir(parents=True, exist_ok=True)
+Path("data/chroma").mkdir(parents=True, exist_ok=True)
 #files = files[:100]
 
 if __name__ == "__main__":
     for file in tqdm(files):
-        generate_mel_spectrogram("data/tracks_wav/" + file, "data/spectrograms/")
+        #generate_mel_spectrogram("data/tracks_wav/" + file, "data/spectrograms/")
+        generate_chroma("data/tracks_wav/" + file, "data/chroma/")
     """
     for file in tqdm(files):
         try:

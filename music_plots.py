@@ -69,6 +69,22 @@ def generate_mel_spectrogram(filename, outpath):
     plt.savefig(outpath + new_filename, bbox_inches='tight', transparent=True)
     plt.close('all')
 
+def generate_chroma(filename, outpath):
+    signal, sr = librosa.load(filename)
+
+    path, file = os.path.split(filename)
+    pre, ext = os.path.splitext(file)
+    new_filename = str(int(pre)) + ".png"
+    # this is the number of samples in a window per fft
+    hop_length = 512
+    chroma = librosa.feature.chroma_cqt(y=signal, sr=sr, hop_length=hop_length)
+
+    px = 1 / plt.rcParams['figure.dpi']  # pixel in inches
+    plt.subplots(figsize=(600 * px, 200 * px))
+    plt.axis('off')
+    librosa.display.specshow(chroma, sr=sr, hop_length=hop_length)
+    plt.savefig(outpath + new_filename, bbox_inches='tight', transparent=True)
+    plt.close('all')
 
 def plot_chroma(filename):
     signal, sr = librosa.load(filename)
