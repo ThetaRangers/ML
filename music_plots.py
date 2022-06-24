@@ -89,13 +89,21 @@ def generate_chroma(filename, outpath):
 def plot_chroma(filename):
     signal, sr = librosa.load(filename)
 
+    COLOR = 'white'
+    plt.rcParams['text.color'] = COLOR
+    plt.rcParams['axes.labelcolor'] = COLOR
+    plt.rcParams['xtick.color'] = COLOR
+    plt.rcParams['ytick.color'] = COLOR
+
     # The amount of samples we are shifting after each fft
     hop_length = 512
     chroma = librosa.feature.chroma_cqt(y=signal, sr=sr, hop_length=hop_length)
 
     plt.figure(figsize=(20, 5))
-    librosa.display.specshow(chroma, sr=sr, hop_length=hop_length)
+    librosa.display.specshow(chroma, y_axis='chroma', x_axis='time', sr=sr, hop_length=hop_length)
     plt.title('Constant Q Chroma', fontdict=dict(size=18))
+    plt.xlabel('Time', fontdict=dict(size=15))
+    plt.ylabel('Pitch', fontdict=dict(size=15))
     plt.show()
 
 
