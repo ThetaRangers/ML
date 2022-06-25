@@ -99,6 +99,8 @@ def get_features(filepaths):
     features = pd.DataFrame(columns=columns(), dtype=np.float32)
 
     for i in tqdm(range(0, len(filepaths))):
-        features.loc[i] = compute_features(filepaths[i], 10)
+        pre, ext = os.path.splitext(filepaths[i])
+        x = int(os.path.basename(pre))
+        features.loc[x] = compute_features(filepaths[i], 10)
 
     return features
