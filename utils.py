@@ -98,23 +98,7 @@ def compute_features(filepath, tid=10):
 def get_features(filepaths):
     features = pd.DataFrame(columns=columns(), dtype=np.float32)
 
-    for i in range(0, len(filepaths)):
+    for i in tqdm(range(0, len(filepaths))):
         features.loc[i] = compute_features(filepaths[i], 10)
 
     return features
-
-def main():
-    features = pd.DataFrame(columns=columns(), dtype=np.float32)
-
-    features.loc[0] = compute_features(10)
-
-    save(features, 10)
-
-
-def save(features, ndigits):
-
-    # Should be done already, just to be sure.
-    features.sort_index(axis=0, inplace=True)
-    features.sort_index(axis=1, inplace=True)
-
-    features.to_csv('out.csv', float_format='%.{}e'.format(ndigits))
