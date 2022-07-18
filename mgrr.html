@@ -14676,7 +14676,7 @@ Non è sempre possibile conferire un’attribuzione oggettiva ai generi musicali
 <h2 id="Metodo">Metodo<a class="anchor-link" href="#Metodo">&#182;</a></h2><h3 id="Utilizzando-feature">Utilizzando feature<a class="anchor-link" href="#Utilizzando-feature">&#182;</a></h3><p>Basandosi sull’esempio fornito da FMA in features.csv, sono state generate diverse feature a partire dalle tracce audio usando librosa. Si è preferito rigenerare le feature piuttosto che usare quelle precalcolate nel dataset per avere più controllo su queste. Le feature già presenti, infatti, sono calcolate su tutte le canzoni, non solo sul dataset di dimensione small. Si ipotizza inoltre che queste siano misurate sull’intera durata della canzone e non sul campione di 30 secondi. Rigenerando le feature è possibile paragonare gli approcci basati su feature con quelli basati su spettrogrammi in modo più imparziale, essendo entrambi tratti dalla stessa quantità di tracce audio della stessa durata. Questa generazione è eseguita nel file <a href="https://github.com/ThetaRangers/ML/blob/main/generate_features.py">generate_features.py</a>.
  Non sono state utilizzate le caratteristiche fornite da echonest poiché l’API non è più disponibile e i dati presenti in echonest.csv sono pochi. Sono calcolate media, deviazione standard, skewness, kurtosis, mediana, minimo e massimo delle seguenti feature:</p>
 <ul>
-<li><p>Chroma: Un file audio può consistere di 12 differenti classi di altezze (pitch class). Queste corrispondono a tutte le note distanti un numero intero di ottave (es. tutte le note DO ad una distanza di una o più ottave). I chromagrammi rappresentano l’intensità delle classi di altezze di una file audio nel tempo.</p>
+<li><p>Chroma: Un file audio può consistere di 12 differenti classi di altezze (pitch class). Queste corrispondono a tutte le note distanti un numero intero di ottave (es. tutte le note DO ad una distanza di una o più ottave). I chromagrammi rappresentano l’intensità delle classi di altezze di un file audio nel tempo.</p>
 <ul>
 <li>chroma_stft (standard chromagram, 12 sample): cromagramma che viene calcolato dallo spettrogramma dei file audio.</li>
 <li>chroma_cens(Computes the chroma variant “Chroma Energy Normalized Statistics” (CENS), 12 sample): Il cromagramma è costituito da segnali in forma di energia. L'idea principale delle caratteristiche CENS è che l'analisi statistica su ampie finestre attenua le deviazioni locali del tempo, dell'articolazione e degli ornamenti musicali, come trilli e accordi arpeggiati.</li>
@@ -14851,6 +14851,7 @@ jp-needs-dark-background
 <li>Recall</li>
 <li>F1</li>
 <li>Tempo di esecuzione del fitting</li>
+<li>Tempo di esecuzione della predizione</li>
 </ul>
 <h2 id="Keras-Tuner">Keras-Tuner<a class="anchor-link" href="#Keras-Tuner">&#182;</a></h2><p>KerasTuner è un framework di ottimizzazione degli iperparametri scalabile. Supporta diversi algoritmi di ricerca. Nel caso in questione si fa uso di Hyperband. Questo algoritmo è una estensione dell'algoritmo Successive halving proposto in <a href="https://arxiv.org/pdf/1603.06560.pdf">A Novel Bandit-Based Approach to Hyperparameter Optimization</a>.</p>
 <h2 id="Grid-Search">Grid Search<a class="anchor-link" href="#Grid-Search">&#182;</a></h2><p>La Grid Seach viene utilizzata per trovare gli iperparametri di un modello che producano le previsioni più accurate. Grid Search è una ricerca esaustiva attraverso un sottoinsieme specificato manualmente dello spazio degli iperparametri di un algoritmo di apprendimento. Un algoritmo di ricerca a griglia deve essere guidato da una qualche metrica di performance, tipicamente misurata tramite cross validation sul training set.</p>
@@ -21812,7 +21813,7 @@ Loss
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>Accuracy: 0.3363057324840764, Precision: 0.41183372456335676, Recall: 0.3363057324840764, F1: 0.3070414022943276
-Time elapsed 997.2103340000001
+Time elapsed 8704.385559
 </pre>
 </div>
 </div>
